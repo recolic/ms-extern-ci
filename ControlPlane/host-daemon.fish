@@ -28,11 +28,11 @@ cd repo
 dobuild master:(git rev-parse --short HEAD)
 while true
     # No error-crash in the loop.
-    git fetch 2>&1 > $tmpf
+    git fetch 2> $tmpf
     git reset --hard "@{upstream}"
 
     # dirty string processing
-    for niddle in triggers
+    for niddle in $triggers
         # Each line in the hit, means a updated branch need to be built. 
         for line in (cat $tmpf | grep -E "origin/$niddle"'( |$)')
             set hit_brname (echo $line | sed 's/^.* origin\///g' | sed 's/ .*$//g')

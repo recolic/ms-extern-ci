@@ -7,6 +7,7 @@ set devops_uname bensl
 set devops_pswd (cat /home/recolic/scripts/ms-passwords/devops-password)
 # Using GNU grep, allow basic regex. (I assume nobody place SPACE and origin/ in his branch name. )
 set triggers master M365FleetAGC 'u/recolic/.*'
+set webroot /var/www/html/externci
 
 set tmpf /tmp/ms-externci-azdeploymentbuilder
 test $devops_pswd = "" ; and echo "Please set devops_password" ; and exit 1
@@ -14,6 +15,7 @@ test $devops_pswd = "" ; and echo "Please set devops_password" ; and exit 1
 function dobuild
     set build_tag $args[1]
     sudo docker run -ti --rm -v (pwd)/..:/buildroot recolic/openxt bash /buildroot/guest-build.sh $devops_uname $devops_pswd
+    and mv ../output.zip $webroot/AzDB.$build_tag.zip
 end
 
 test -d repo
@@ -42,7 +44,7 @@ while true
         end
     end
 
-    sleep 10m
+    sleep 60
 end
 
 

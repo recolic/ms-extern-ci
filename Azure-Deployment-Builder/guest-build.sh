@@ -4,6 +4,7 @@
 nuget_uname="$1"
 nuget_pswd="$2"
 cd /buildroot/repo || exit $?
+apt update && apt install -y zip || exit $?
 
 #######################################
 echo START sync
@@ -14,8 +15,8 @@ exit $?
 
 # The noob Microsoft.Azure.Cosmos.Table packager set the version to 0.0.0.0. Fuck you. 
 echo START hotfix
-nuget-download-package Microsoft.Azure.Cosmos.Table 1.0.6 ~/nuget-test-repo &&
-rm -rf ~/nuget-test-repo/microsoft.azure.cosmos.table/2.0.0-preview ||
+nuget-download-package Microsoft.Azure.Cosmos.Table 1.0.6 ~/nuget-local-repo &&
+rm -r ~/nuget-local-repo/microsoft.azure.cosmos.table/2.* ||
 exit $?
 
 #######################################

@@ -4,6 +4,7 @@
 nuget_uname="$1"
 nuget_pswd="$2"
 cd /buildroot/repo || exit $?
+apt update && apt install -y zip || exit $?
 
 #######################################
 echo START sync

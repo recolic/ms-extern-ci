@@ -7,20 +7,25 @@ set devops_uname bensl
 set devops_pswd (cat /home/recolic/scripts/ms-passwords/devops-password)
 # Using GNU grep, allow basic regex. (I assume nobody place SPACE and origin/ in his branch name. )
 set triggers master 'u/recolic/.*'
+set webroot /var/www/html/externci
 
 set tmpf /tmp/ms-externci-controlplane
 test $devops_pswd = "" ; and echo "Please set devops_password" ; and exit 1
 
 function dobuild
-    set build_tag $args[1]
-    sudo docker run -ti --rm -v (pwd)/..:/buildroot recolic/openxt bash /buildroot/guest-build.sh $devops_uname $devops_pswd
+    set build_tag CP.$argv[1]
+    echo "Start building $build_tag at "(date --utc) >> $webroot/$build_tag.log
+    sudo docker run --rm -v (pwd)/..:/buildroot recolic/openxt bash /buildroot/guest-build.sh $devops_uname $devops_pswd | tee --append $webroot/$build_tag.log
+    and mv ../output.zip $webroot/$build_tag.zip
+    and echo "Successfully built $build_tag at "(date --utc) >> $webroot/$build_tag.log
+    or echo "Failed to build $build_tag at "(date --utc) >> $webroot/$build_tag.log
 end
 
 test -d repo
     or git clone https://$devops_uname:$devops_pswd@o365exchange.visualstudio.com/DefaultCollection/O365%20Core/_git/ControlPlane repo
 cd repo
 
-dobuild
+dobuild master:(git rev-parse --short HEAD)
 while true
     # No error-crash in the loop.
     git fetch 2>&1 > $tmpf
@@ -42,7 +47,7 @@ while true
         end
     end
 
-    sleep 10m
+    sleep 60
 end
 
 

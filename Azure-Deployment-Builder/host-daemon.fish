@@ -13,16 +13,19 @@ set tmpf /tmp/ms-externci-azdeploymentbuilder
 test $devops_pswd = "" ; and echo "Please set devops_password" ; and exit 1
 
 function dobuild
-    set build_tag $args[1]
-    sudo docker run -ti --rm -v (pwd)/..:/buildroot recolic/openxt bash /buildroot/guest-build.sh $devops_uname $devops_pswd
-    and mv ../output.zip $webroot/AzDB.$build_tag.zip
+    set build_tag AzDB.$argv[1]
+    echo "Start building $build_tag at "(date --utc) >> $webroot/$build_tag.log
+    sudo docker run --rm -v (pwd)/..:/buildroot recolic/openxt bash /buildroot/guest-build.sh $devops_uname $devops_pswd | tee --append $webroot/$build_tag.log
+    and mv ../output.zip $webroot/$build_tag.zip
+    and echo "Successfully built $build_tag at "(date --utc) >> $webroot/$build_tag.log
+    or echo "Failed to build $build_tag at "(date --utc) >> $webroot/$build_tag.log
 end
 
 test -d repo
     or git clone https://$devops_uname:$devops_pswd@msazure.visualstudio.com/DefaultCollection/One/_git/Azure-Deployment-Builder repo
 cd repo
 
-dobuild
+dobuild master:(git rev-parse --short HEAD)
 while true
     # No error-crash in the loop.
     git fetch 2>&1 > $tmpf

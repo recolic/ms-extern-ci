@@ -6,7 +6,7 @@
 set devops_uname bensl
 set devops_pswd (cat /home/recolic/scripts/ms-passwords/devops-password)
 # Using GNU grep, allow basic regex. (I assume nobody place SPACE and origin/ in his branch name. )
-set triggers master M365FleetAGC 'u/recolic/.*'
+set triggers master M365FleetAGC '.*/(recolic)|(concao)|(shuxli)|(yeqwu)|(dennisxu)|(jihyan)|(liyang3)/.*'
 set webroot /var/www/html/externci
 
 set tmpf /tmp/ms-externci-azdeploymentbuilder
@@ -44,7 +44,7 @@ while true
                 set curr_hash (git rev-parse --short HEAD)
             end
 
-            dobuild $hit_brname:$curr_hash
+            dobuild (echo $hit_brname | tr / _):$curr_hash
         end
     end
 

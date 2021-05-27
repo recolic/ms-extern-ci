@@ -26,7 +26,7 @@ test -d repo
     or git clone https://$devops_uname:$devops_pswd@msazure.visualstudio.com/DefaultCollection/One/_git/Azure-Deployment-Builder repo
 cd repo
 
-#dobuild master:(git rev-parse --short HEAD)
+#dobuild (git branch --show-current):(git rev-parse --short HEAD)
 while true
     # No error-crash in the loop.
     git fetch 2> $tmpf

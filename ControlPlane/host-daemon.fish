@@ -25,7 +25,7 @@ test -d repo
     or git clone https://$devops_uname:$devops_pswd@o365exchange.visualstudio.com/DefaultCollection/O365%20Core/_git/ControlPlane repo
 cd repo
 
-# dobuild master:(git rev-parse --short HEAD)
+# dobuild (git branch --show-current):(git rev-parse --short HEAD)
 while true
     # No error-crash in the loop.
     git fetch 2> $tmpf

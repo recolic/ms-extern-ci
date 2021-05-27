@@ -23,7 +23,8 @@ echo START build AzureToolkit
 mv repo/sources/dev/FleetAGC/src/AzureToolKit ~ && cd ~/AzureToolKit &&
 source <(openxt env --local-repo-dir ~/nuget-local-repo --project-dir . --bin-dir ~/build-output --shell bash) &&
 csproj-to-5 *.csproj &&
-dotnet pack ||
+dotnet pack &&
+zip /buildroot/output.zip /root/build-output/*.nupkg ||
 exit $?
 
 echo DONE

@@ -34,7 +34,7 @@ echo START pack
 
 rm -f ~/build-output/net472/*.pdb &&
 find Workflows/ -name '*.xaml' -exec cp '{}' ~/build-output/net472/ ';' &&
-zip output.zip ~/build-output/net472/** &&
+zip output.zip -r ~/build-output/net472/** &&
 cp output.zip /buildroot/output.zip || 
 exit $?
 

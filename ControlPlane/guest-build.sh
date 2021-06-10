@@ -24,7 +24,7 @@ mv repo/sources/dev/FleetAGC/src/AzureToolKit ~ && cd ~/AzureToolKit &&
 source <(openxt env --local-repo-dir ~/nuget-local-repo --project-dir . --bin-dir ~/build-output --shell bash) &&
 csproj-to-5 *.csproj &&
 dotnet pack &&
-zip /buildroot/output.zip /root/build-output/*.nupkg ||
+zip /buildroot/output.zip -r /root/build-output/*.nupkg ||
 exit $?
 
 echo DONE

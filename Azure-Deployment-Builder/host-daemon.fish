@@ -6,7 +6,7 @@
 set devops_uname bensl
 set devops_pswd (cat /home/recolic/scripts/ms-passwords/devops-password)
 # Using GNU grep, allow basic regex. (I assume nobody place SPACE and origin/ in his branch name. )
-set triggers master M365FleetAGC '.*/(recolic)|(concao)|(shuxli)|(yeqwu)|(dennisxu)|(jihyan)|(liyang3)/.*'
+set triggers master M365FleetAGC '.*/(recolic)|(concao)|(shuxli)|(yeqwu)|(dennisxu)|(jihyan)|(liyang3)/.*' SwedenGolocal
 set webroot /var/www/html/externci
 
 set tmpf /tmp/ms-externci-azdeploymentbuilder
